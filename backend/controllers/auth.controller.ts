@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/user.model';
+import generateTokenAndSetCookie from '../utils/generateToken';
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -32,13 +33,20 @@ export const signup = async (req: Request, res: Response) => {
     });
 
     console.log('new user is=>', newUser);
-    await newUser.save();
-    res.status(201).json({
-      _id: newUser._id,
-      fullName: newUser.fullName,
-      username: newUser.username,
-      profilePic: newUser.profilePic,
-    });
+    if (newUser) {
+      //generate JWT token
+      generateTokenAndSetCookie(newUser._id.toString(), res);
+      await newUser.save();
+
+      res.status(201).json({
+        _id: newUser._id,
+        fullName: newUser.fullName,
+        username: newUser.username,
+        profilePic: newUser.profilePic,
+      });
+    } else {
+      res.status(400).json({ error: 'Invalid user data' });
+    }
   } catch (error: any) {
     console.log('Error in signup controller', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
