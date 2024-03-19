@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/user.model';
 import generateTokenAndSetCookie from '../utils/generateToken';
+import { Error } from 'mongoose';
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -73,9 +74,18 @@ export const login = async (req: Request, res: Response) => {
       username: user.username,
       profilePic: user.profilePic,
     });
-  } catch (error) {}
+  } catch (error: any) {
+    console.log('Error in login controller', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
 export const logout = (req: Request, res: Response) => {
-  console.log('logoutuser');
+  try {
+    res.cookie('jwt', '', { maxAge: 0 });
+    res.status(200).json({ message: 'Logged out successfully' });
+  } catch (error: any) {
+    console.log('Error in logout controller', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
