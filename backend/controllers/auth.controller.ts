@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
 import User from '../models/user.model';
 
 export const signup = async (req: Request, res: Response) => {
@@ -16,6 +17,8 @@ export const signup = async (req: Request, res: Response) => {
     }
 
     //Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
     const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
@@ -23,7 +26,7 @@ export const signup = async (req: Request, res: Response) => {
     const newUser = new User({
       fullName,
       username,
-      password,
+      password: hashedPassword,
       gender,
       profilePic: gender === 'male' ? boyProfilePic : girlProfilePic,
     });
