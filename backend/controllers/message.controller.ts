@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Conversation from '../models/conversation.model';
 import Message from '../models/message.model';
+
 // Define a custom Request type by extending the Request type from Express
 interface CustomRequest extends Request {
   user?: any; // Add the user property to the Request type
