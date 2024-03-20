@@ -36,3 +36,23 @@ export const sendMessage = async (req: CustomRequest, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const getMessages = async (req: CustomRequest, res: Response) => {
+  try {
+    const { id: userToChatId } = req.params;
+    const senderId = req.user?._id;
+
+    const conversation = await Conversation.findOne({
+      participants: { $all: [senderId, userToChatId] },
+    }).populate('messages');
+
+    if (!conversation) return res.status(200).json([]);
+
+    const messages = conversation.messages;
+
+    res.status(200).json(messages);
+  } catch (error: any) {
+    console.log('Error in protectRoute middleware: ', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
