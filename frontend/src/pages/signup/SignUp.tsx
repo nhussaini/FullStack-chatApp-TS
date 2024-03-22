@@ -1,3 +1,5 @@
+import GenderCheckbox from './GenderCheckbox';
+
 const SignUp = () => {
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
@@ -50,9 +52,10 @@ const SignUp = () => {
           </div>
 
           {/* GENDER CHECKBOX GOES HERE*/}
+          <GenderCheckbox />
           <a
             href="#"
-            className="text-sm hover:underline hover:text-blue-600 mt-2 inline-block"
+            className="text-sm hover:underline hover:text-blue-600 mt-1 inline-block"
           >
             Already have an account?
           </a>
