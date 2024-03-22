@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/user.model';
+
 // Define a custom Request type by extending the Request type from Express
 interface CustomRequest extends Request {
   user?: any; // Add the user property to the Request type
