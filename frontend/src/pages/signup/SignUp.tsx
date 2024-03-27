@@ -2,17 +2,6 @@ import { FormEvent, useState } from 'react';
 import GenderCheckbox from './GenderCheckbox';
 import useSignup from '../../hooks/useSignup';
 
-// interface SignupHook {
-//   loading: boolean;
-//   signup: (
-//     fullName: string,
-//     username: string,
-//     password: string,
-//     confirmPassword: string,
-//     gender: string
-//   ) => Promise<void>;
-// }
-
 const SignUp = () => {
   const [inputs, setInputs] = useState({
     fullName: '',
