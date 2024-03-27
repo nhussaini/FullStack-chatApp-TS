@@ -1,5 +1,17 @@
 import { FormEvent, useState } from 'react';
 import GenderCheckbox from './GenderCheckbox';
+import useSignup from '../../hooks/useSignup';
+
+// interface SignupHook {
+//   loading: boolean;
+//   signup: (
+//     fullName: string,
+//     username: string,
+//     password: string,
+//     confirmPassword: string,
+//     gender: string
+//   ) => Promise<void>;
+// }
 
 const SignUp = () => {
   const [inputs, setInputs] = useState({
@@ -10,10 +22,13 @@ const SignUp = () => {
     gender: '',
   });
 
+  const { loading, signup } = useSignup();
+
   //handle form submission
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(inputs);
+    await signup(inputs);
   };
 
   //handle if checkbox for gender changes
